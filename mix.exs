@@ -3,7 +3,7 @@ defmodule Scrape.Mixfile do
 
   def project do
     [app: :scrape,
-     version: "2.0.1",
+     version: "2.1.0",
      elixir: "~> 1.4",
      description: description(),
      package: package(),
@@ -39,7 +39,7 @@ defmodule Scrape.Mixfile do
       {:timex,      "~> 3.1"}, # date/time processing
       {:parallel,   "~> 0.0.3"}, # easy parallel processing
       {:dogma,      "~> 0.1.6", only: :dev}, # static code linter
-      {:ex_doc, ">= 0.0.0", only: :dev} # required now
+      {:ex_doc,     ">= 0.0.0", only: :dev} # required now
     ]
   end
 
