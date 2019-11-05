@@ -16,7 +16,8 @@ defmodule Scrape.Fetch do
     |> evaluate
   end
 
-  defp evaluate({:error, _}), do: ""
+  defp evaluate({:error, %HTTPoison.Error{reason: reason}}), do: {:error, reason}
+  defp evaluate({:ok, %HTTPoison.Response{status_code: 404}}), do: {:error, :not_found}
   defp evaluate({:ok, %HTTPoison.Response{status_code: 200} = response}) do
     cs = charset(response.headers)
 
@@ -34,6 +35,7 @@ defmodule Scrape.Fetch do
       response.body
     end
   end
+  defp evaluate({:ok, %HTTPoison.Response{status_code: status_code}}) when is_integer(status_code) and status_code >= 400, do: {:error, "HTTP #{status_code}"}
   defp evaluate(_), do: ""
 
   defp charset(headers) do

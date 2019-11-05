@@ -8,11 +8,11 @@ defmodule Scrape do
 
   @moduledoc """
   Elixir package to scrape websites. Current features:
-    can handle non-utf-8 sources.
-    can deal with timezones.
-    parse RSS/Atom feeds.
-    parse common websites.
-    parse advanced content websites ("articles").
+  can handle non-utf-8 sources.
+  can deal with timezones.
+  parse RSS/Atom feeds.
+  parse common websites.
+  parse advanced content websites ("articles").
   """
 
   @doc """
@@ -24,19 +24,27 @@ defmodule Scrape do
   @spec feed(String.t, Atom) :: [%FeedItem{}] | []
 
   def feed(url, :minimal) do
-    url
-    |> Fetch.run
-    |> decode_if_needed()
-    |> Feed.parse_minimal
+    case fetched = Fetch.run(url) do
+      {:error, reason} ->
+        {:error, reason}
+      _ ->
+        fetched
+        |> decode_if_needed()
+        |> Feed.parse_minimal
+    end
   end
 
   @spec feed(String.t) :: [%FeedItem{}] | []
 
   def feed(url) do
-    url
-    |> Fetch.run
-    |> decode_if_needed()
-    |> Feed.parse(url)
+    case fetched = Fetch.run(url) do
+      {:error, reason} ->
+        {:error, reason}
+      _ ->
+        fetched
+        |> decode_if_needed()
+        |> Feed.parse(url)
+    end
   end
   @doc """
   Parse a website and gets it's various meta data including description, text content, image, tags, favicon and feeds.
@@ -69,11 +77,14 @@ defmodule Scrape do
       [[encoding]] ->
         coded_encoding =
           encoding
-            |> String.downcase
-            |> String.replace("-", "_")
-            |> String.to_atom
+          |> String.downcase
+          |> String.replace("-", "_")
+          |> String.to_atom
         case coded_encoding do
+          :utf8 -> feed_data
           :utf_8 -> feed_data
+          :windows_1252 -> Codepagex.to_string!(feed_data, :iso_8859_1)
+          :windows_1251 -> Codepagex.to_string!(feed_data, :iso_8859_5)
           _ -> Codepagex.to_string!(feed_data, coded_encoding)
         end
       [] -> feed_data
