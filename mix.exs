@@ -39,7 +39,8 @@ defmodule Scrape.Mixfile do
       {:timex,      "~> 3.1"}, # date/time processing
       {:parallel,   "~> 0.0.3"}, # easy parallel processing
       {:dogma,      "~> 0.1.6", only: :dev}, # static code linter
-      {:ex_doc,     ">= 0.0.0", only: :dev} # required now
+      {:ex_doc,     ">= 0.0.0", only: :dev}, # required now
+      {:csv,        "~> 2.0.0", only: :test} #for files testing
     ]
   end
 
