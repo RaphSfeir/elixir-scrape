@@ -33,7 +33,7 @@ defmodule Scrape.Mixfile do
   defp deps do
     [
       {:floki,      "~> 0.20.0"}, # html/xml parser
-      {:html5ever, "~> 0.7.0"}, # browser grade html parser (Rust NIF)
+      {:html5ever, git: "git@github.com:rusterlium/html5ever_elixir.git", override: true}, # browser grade html parser (Rust NIF)
       {:httpoison,  "~> 1.4"}, # http client
       {:codepagex,  "~> 0.1.4"}, # iconv written in pure elixir
       {:timex,      "~> 3.1"}, # date/time processing
