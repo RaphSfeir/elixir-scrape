@@ -85,6 +85,7 @@ defmodule Scrape do
           :utf_8 -> feed_data
           :windows_1252 -> Codepagex.to_string!(feed_data, :iso_8859_1)
           :windows_1251 -> Codepagex.to_string!(feed_data, :iso_8859_5)
+          :euc_kr -> :iconv.convert("euc-kr", "utf-8", feed_data)
           _ -> Codepagex.to_string!(feed_data, coded_encoding)
         end
       [] -> feed_data

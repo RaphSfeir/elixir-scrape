@@ -3,7 +3,7 @@ defmodule Scrape.Mixfile do
 
   def project do
     [app: :scrape,
-     version: "2.1.0",
+     version: "2.1.1",
      elixir: "~> 1.4",
      description: description(),
      package: package(),
@@ -18,7 +18,7 @@ defmodule Scrape.Mixfile do
   # Type `mix help compile.app` for more information
   def application do
     [applications: [:logger, :httpoison, :tzdata,
-                    :floki, :parallel, :timex, :codepagex]]
+                    :floki, :parallel, :timex, :codepagex, :iconv]]
   end
 
   # Dependencies can be Hex packages:
@@ -40,7 +40,8 @@ defmodule Scrape.Mixfile do
       {:parallel,   "~> 0.0.3"}, # easy parallel processing
       {:dogma,      "~> 0.1.6", only: :dev}, # static code linter
       {:ex_doc,     ">= 0.0.0", only: :dev}, # required now
-      {:csv,        "~> 2.0.0", only: :test} #for files testing
+      {:csv,        "~> 2.0.0", only: :test}, #for files testing
+      {:iconv,      "~> 1.0.10"}
     ]
   end
 
